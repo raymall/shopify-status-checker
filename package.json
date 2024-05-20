@@ -17,6 +17,7 @@
     "@babel/preset-env": "^7.24.5",
     "@babel/register": "^7.23.7",
     "@types/node": "^20.12.12",
+    "@types/sanitize-html": "^2.11.0",
     "dotenv": "^16.4.5",
     "gulp": "^5.0.0",
     "typescript": "^5.4.5"
@@ -27,8 +28,11 @@
     ]
   },
   "dependencies": {
-    "@minify-html/js": "^0.8.1",
+    "@aws-sdk/client-s3": "^3.577.0",
+    "aws-sdk": "^2.1623.0",
+    "html-minifier-terser": "^7.2.0",
     "node-html-parser": "^6.1.13",
-    "openai": "^4.47.1"
+    "openai": "^4.47.1",
+    "sanitize-html": "^2.13.0"
   }
 }

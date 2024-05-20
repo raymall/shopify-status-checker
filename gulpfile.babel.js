@@ -6,19 +6,21 @@ const typescript = (cb) => {
     console.log('Compiling...')
 
     if (error) {
-      console.error(command, error, stderr)
+      console.error(command, error)
       return
     }
       
+    stderr ? console.log(stderr) : null
     stdout ? console.log(stdout) : null
 
     exec(`node dist/check.js`, (error, stdout, stderr) => {
 
       if (error) {
-        console.error(command, error, stderr)
+        console.error(command, error)
         return
       }
         
+      stderr ? console.log(stderr) : null
       stdout ? console.log(stdout) : null
       console.log('Completed.')
     })
