@@ -2,10 +2,14 @@ import dotenv from 'dotenv'
 
 import OpenAI from 'openai'
 import { parse } from 'node-html-parser'
-import type { OpenAIResponse } from './io'
-import { MockStatusPage } from './io'
+import {
+  type OpenAIResponse,
+  MockStatusPage
+} from './io'
 import { cleanHTML } from './utils/clean-html'
-import { slackHeader } from './utils/format-slack-message'
+import {
+  slackSection
+} from './utils/format-slack-message'
 import {
   getS3Object,
   putS3Object
@@ -34,9 +38,7 @@ const checkStatus = async () => {
     return data
   })
 
-  // const statusPage = null
-
-  const parsedStatusPage = parse(statusPage || MockStatusPage).querySelector('.page.full-width')
+  const parsedStatusPage = parse(statusPage).querySelector('.page.full-width')
   if (!parsedStatusPage) {
     console.error('Failed to parse Shopify Status page')
     return
@@ -89,9 +91,17 @@ const checkStatus = async () => {
 
     const payload = []
 
-    payload.push(
-      slackHeader(`Shopify Status: ${currentOverallStatus}`)
-    )
+    if (currentOverallStatus === 'operational') {
+      payload.push(
+        slackSection(`:white_check_mark: *OPERATIONAL* | No known issues`),
+        slackSection(`Everything should be back to normal now.`)
+      )
+    } else if (currentOverallStatus === 'outage') {
+      payload.push(
+        slackSection(`:no_entry: *OUTAGE*`),
+        slackSection(`There are issues on Shopify. *<https://www.shopifystatus.com/|More Info>*`)
+      )
+    }
 
     await fetch(`${process.env.SLACK_APP_WEBHOOK_URL}`, {
       method: 'POST',

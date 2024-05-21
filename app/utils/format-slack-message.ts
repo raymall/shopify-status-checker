@@ -8,6 +8,29 @@ export const slackSection = (text: string) => ({
   }
 })
 
+export const slackSectionWithButton = (
+  text: string,
+  label: string,
+  url: string
+) => ({
+  type: 'section',
+  text: {
+    type: 'mrkdwn',
+    text
+  },
+  accessory: {
+    type: 'button',
+    text: {
+      type: 'plain_text',
+      text: label,
+      emoji: true
+    },
+    value: label,
+    url: url,
+    action_id: 'button-action'
+  }
+})
+
 export const slackHeader = (text: string) => ({
   type: 'header',
   text: {

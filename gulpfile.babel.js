@@ -5,22 +5,24 @@ const typescript = (cb) => {
   exec(`pnpm tsc`, (error, stdout, stderr) => {
     console.log('Compiling...')
 
+    stderr ? console.log(stderr) : null
+
     if (error) {
-      console.error(command, error)
+      console.error(command, error, stderr)
       return
     }
       
-    stderr ? console.log(stderr) : null
     stdout ? console.log(stdout) : null
 
     exec(`node dist/check.js`, (error, stdout, stderr) => {
 
+      stderr ? console.log(stderr) : null
+      
       if (error) {
         console.error(command, error)
         return
       }
         
-      stderr ? console.log(stderr) : null
       stdout ? console.log(stdout) : null
       console.log('Completed.')
     })
