@@ -49,7 +49,6 @@ const checkStatus = async () => {
   
   if (previousStatusPage !== currentStatusPage) {
     await putS3Object(currentStatusPage)
-    console.log('Shopify Status page was updated')
 
     const completion = await openai.chat.completions.create({
       messages: [
@@ -82,24 +81,17 @@ const checkStatus = async () => {
   
     const parsedResponse:OpenAIResponse = JSON.parse(response)
     const currentOverallStatus = parsedResponse.overall_status
-    
-    console.log(parsedResponse)
-    console.log('==========')
-    console.log(completion)
-    console.log('==========')
-    console.log('OVERALL STATUS:', currentOverallStatus)
-
     const payload = []
 
     if (currentOverallStatus === 'operational') {
       payload.push(
-        slackSection(`:white_check_mark: *OPERATIONAL* | No known issues`),
+        slackSection(`:white_check_mark:  *OPERATIONAL*`),
         slackSection(`Everything should be back to normal now.`)
       )
     } else if (currentOverallStatus === 'outage') {
       payload.push(
-        slackSection(`:no_entry: *OUTAGE*`),
-        slackSection(`There are issues on Shopify. *<https://www.shopifystatus.com/|More Info>*`)
+        slackSection(`:no_entry:  *OUTAGE*`),
+        slackSection(`There are issues on Shopify. See more info *<https://www.shopifystatus.com/|here>*`)
       )
     }
 
