@@ -45,6 +45,7 @@ const checkStatus = async () => {
   }
 
   const currentStatusPage = await cleanHTML(String(parsedStatusPage))
+  console.log('Current Shopify Status page:', currentStatusPage)
   const previousStatusPage = await getS3Object()
   
   if (previousStatusPage !== currentStatusPage) {
@@ -80,17 +81,18 @@ const checkStatus = async () => {
     }
   
     const parsedResponse:OpenAIResponse = JSON.parse(response)
+    console.log('OpenAI Response:', parsedResponse)
     const currentOverallStatus = parsedResponse.overall_status
     const payload = []
 
     if (currentOverallStatus === 'operational') {
       payload.push(
-        slackSection(`:white_check_mark:  *OPERATIONAL*`),
+        slackSection(`*OPERATIONAL*  :white_check_mark:`),
         slackSection(`Everything should be back to normal now.`)
       )
     } else if (currentOverallStatus === 'outage') {
       payload.push(
-        slackSection(`:no_entry:  *OUTAGE*`),
+        slackSection(`*OUTAGE*  :no_entry:`),
         slackSection(`There are issues on Shopify. See more info *<https://www.shopifystatus.com/|here>*`)
       )
     }
@@ -112,7 +114,7 @@ const checkStatus = async () => {
       }
     })
   } else {
-    console.log('Shopify Status page is the same', previousStatusPage)
+    console.log('Shopify Status page is the same')
   }
 }
 
