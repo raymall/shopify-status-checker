@@ -4,7 +4,7 @@ export type ShopifyStatus = "no known issues" | 'maintenance' | 'degraded' | 'pa
 
 export type OpenAIResponse = {
   active_issue: string
-  overall_status: 'operational' | 'active_issue'
+  overall_status: 'operational' | 'active issue'
   statuses: [
     "no known issues",
     "maintenance",
@@ -45,7 +45,7 @@ export const MockStatusPageNoIssues = `<div class="page full-width"> <div></div>
 
 export const MockOpenAIResponse:OpenAIResponse = {
   active_issue: 'Shopify dashboard is down',
-  overall_status: 'active_issue',
+  overall_status: 'active issue',
   statuses: [
     'no known issues',
     'maintenance',

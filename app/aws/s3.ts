@@ -17,10 +17,10 @@ const getS3ObjectBody = async (bucketObject:any) => {
   }
 }
 
-export async function getS3Object() {
+export async function getS3Object(key: string) {
   const bucketObject = new GetObjectCommand({
     Bucket: process.env.AWS_S3_BUCKET,
-    Key: 'shopify_status.txt',
+    Key: key,
   })
 
   try {
@@ -36,10 +36,10 @@ export async function getS3Object() {
   }
 }
 
-export async function putS3Object(status:string) {
+export async function putS3Object(status:string, key: string) {
   const putS3Object = new PutObjectCommand({
     Bucket: process.env.AWS_S3_BUCKET,
-    Key: 'shopify_status.txt',
+    Key: key,
     Body: status,
   })
 
@@ -47,7 +47,7 @@ export async function putS3Object(status:string) {
     const putS3ObjectCmd = await client.send(putS3Object)
 
     if (putS3ObjectCmd.$metadata.httpStatusCode === 200) {
-      console.log('Shopify Status Updated')
+      console.log(`${key} updated`)
     }
   } catch (error) {
     console.error('Error [putS3Object]:', error)
