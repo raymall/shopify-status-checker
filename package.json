@@ -13,14 +13,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.24.5",
-    "@babel/preset-env": "^7.24.5",
-    "@babel/register": "^7.23.7",
-    "@types/node": "^20.12.12",
-    "@types/sanitize-html": "^2.11.0",
-    "dotenv": "^16.4.5",
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "@babel/register": "^7.25.9",
+    "@types/node": "^20.17.24",
+    "@types/sanitize-html": "^2.13.0",
+    "dotenv": "^16.4.7",
     "gulp": "^5.0.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.8.2"
   },
   "babel": {
     "presets": [
@@ -28,11 +28,10 @@
     ]
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.577.0",
-    "aws-sdk": "^2.1623.0",
+    "@aws-sdk/client-s3": "^3.758.0",
     "html-minifier-terser": "^7.2.0",
     "node-html-parser": "^6.1.13",
-    "openai": "^4.47.1",
-    "sanitize-html": "^2.13.0"
+    "openai": "^4.87.3",
+    "sanitize-html": "^2.14.0"
   }
 }
