@@ -90,10 +90,10 @@ const checkStatus = async () => {
     const slackPayload = []
 
     if (
-      previousOverallStatus === currentOverallStatus &&
+      previousOverallStatus === currentOverallStatus ||
       previousActiveIssue === currentActiveIssue
     ) {
-      console.log('Shopify overall status is the same')
+      console.log('Shopify status is the same')
       return
     }
 
