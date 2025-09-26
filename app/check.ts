@@ -38,13 +38,14 @@ const checkStatus = async () => {
     return data
   })
 
-  const parsedStatusPage = process.env.NODE_ENV === 'production' ? parse(statusPage).querySelector('.page.full-width') : MockStatusPageWithIssues
+  const parsedStatusPage = process.env.NODE_ENV === 'production' ? parse(statusPage) : MockStatusPageWithIssues
   if (!parsedStatusPage) {
     console.error(`Failed to parse ${process.env.NODE_ENV === 'production' ? pageToScrape : 'MockStatusPageWithIssues'}`)
     return
   }
 
   const currentStatusPage = await cleanHTML(String(parsedStatusPage))
+  console.log('currentStatusPage', currentStatusPage)
   console.log('Current https://www.shopifystatus.com:', currentStatusPage)
   const previousStatusPage = await getS3Object('shopify_status_page.txt')
   const previousOverallStatus = await getS3Object('shopify_status.txt')
@@ -63,7 +64,7 @@ const checkStatus = async () => {
           role: 'user',
           content: `
             Extract information from the following HTML code and provide a JSON object. The JSON object should have the following structure:
-            1. 'active_issue': The current active issue or issues as a string separated by commas; if there are no active issues return 'no known issues'.
+            1. 'active_issue': The current active issue or issues as a string separated by commas; if there are no active issues return 'operational'.
             2. 'overall_status': The overall status of the system, which should be 'operational' if there are no issues or 'active issue' if you found ANY issue.
             3. 'statuses': An array of all possible statuses.
             4. 'services': An object with the service names as keys and their current status as values.
@@ -107,7 +108,7 @@ const checkStatus = async () => {
     } else if (currentOverallStatus === 'active issue') {
       slackPayload.push(
         slackSection(`*${currentActiveIssue}*  :no_entry:`),
-        slackSection(`More info *<https://www.shopifystatus.com/|here>*`)
+        // slackSection(`More info *<https://www.shopifystatus.com/|here>*`)
       )
     }
 
