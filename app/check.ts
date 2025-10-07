@@ -45,8 +45,6 @@ const checkStatus = async () => {
   }
 
   const currentStatusPage = await cleanHTML(String(parsedStatusPage))
-  console.log('currentStatusPage', currentStatusPage)
-  console.log('Current https://www.shopifystatus.com:', currentStatusPage)
   const previousStatusPage = await getS3Object('shopify_status_page.txt')
   const previousOverallStatus = await getS3Object('shopify_status.txt')
   const previousActiveIssue = await getS3Object('shopify_active_issue.txt')
@@ -85,7 +83,7 @@ const checkStatus = async () => {
     }
   
     const parsedResponse:OpenAIResponse = JSON.parse(response)
-    console.log('OpenAI Response:', parsedResponse)
+    console.log('OpenAI JSON Response:', parsedResponse)
     const currentOverallStatus = parsedResponse.overall_status
     const currentActiveIssue = parsedResponse.active_issue
     const slackPayload = []
@@ -94,7 +92,7 @@ const checkStatus = async () => {
       previousOverallStatus === currentOverallStatus ||
       previousActiveIssue === currentActiveIssue
     ) {
-      console.log('Shopify status is the same')
+      console.log('Shopify overall status or active issue is the same')
       return
     }
 
@@ -105,11 +103,13 @@ const checkStatus = async () => {
       slackPayload.push(
         slackSection(`*All systems are operational*  :white_check_mark:`)
       )
+      console.log(`*All systems are operational*  :white_check_mark:`)
     } else if (currentOverallStatus === 'active issue') {
       slackPayload.push(
         slackSection(`*${currentActiveIssue}*  :no_entry:`),
         // slackSection(`More info *<https://www.shopifystatus.com/|here>*`)
       )
+      console.log(`*${currentActiveIssue}*  :no_entry:`)
     }
 
     await fetch(`${process.env.SLACK_APP_WEBHOOK_URL}`, {
@@ -128,7 +128,7 @@ const checkStatus = async () => {
       }
     })
   } else {
-    console.log('https://www.shopifystatus.com is the same')
+    console.log('Shopify status is the same')
   }
 }
 
