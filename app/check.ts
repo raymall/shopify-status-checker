@@ -51,6 +51,7 @@ const checkStatus = async () => {
   
   if (previousStatusPage !== currentStatusPage) {
     await putS3Object(currentStatusPage, 'shopify_status_page.txt')
+    console.log('currentStatusPage', currentStatusPage)
 
     const completion = await openai.chat.completions.create({
       messages: [
