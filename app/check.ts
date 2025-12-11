@@ -100,12 +100,14 @@ const checkStatus = async () => {
     previousOverallStatus !== currentOverallStatus ? await putS3Object(currentOverallStatus, 'shopify_status.txt') : null
     previousActiveIssue !== currentActiveIssue ? await putS3Object(currentActiveIssue, 'shopify_active_issue.txt') : null
 
-    if (currentOverallStatus === 'operational') {
-      slackPayload.push(
-        slackSection(`*All systems are operational*  :white_check_mark:`)
-      )
-      console.log(`*All systems are operational*  :white_check_mark:`)
-    } else if (currentOverallStatus === 'active issue') {
+    // if (currentOverallStatus === 'operational') {
+    //   slackPayload.push(
+    //     slackSection(`*All systems are operational*  :white_check_mark:`)
+    //   )
+    //   console.log(`*All systems are operational*  :white_check_mark:`)
+    // } else 
+    
+    if (currentOverallStatus === 'active issue') {
       slackPayload.push(
         slackSection(`*${currentActiveIssue}*  :no_entry:`),
         // slackSection(`More info *<https://www.shopifystatus.com/|here>*`)
