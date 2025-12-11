@@ -94,3 +94,9 @@ Contributions are welcome! Please follow these steps to contribute:
 This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for details.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## Cron Expressions
+
+`*/15 10-23 * * 1-5`: Every 15 minutes, between 10:00 AM UTC and 11:59 PM UTC, Monday through Friday.
+
+`*/10 8-23,0-2 * * *`: every 10 minutes, at 08:00 AM UTC through 11:59 PM UTC and 12:00 AM UTC through 02:59 AM UTC.
