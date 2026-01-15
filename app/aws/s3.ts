@@ -4,16 +4,23 @@ import {
   S3Client
 } from '@aws-sdk/client-s3'
 
+type bucketObjectType = {
+  Body?: {
+    transformToString: () => Promise<string>
+  }
+}
+
 const client = new S3Client({
   region: 'us-east-2'
 })
 
-const getS3ObjectBody = async (bucketObject:any) => {
+const getS3ObjectBody = async (bucketObject:bucketObjectType) => {
   try {
     const prevOverallStatus = await bucketObject?.Body?.transformToString()
     return prevOverallStatus || null
   } catch (error) {
     console.error('Error [getS3ObjectBody]:', error)
+    return null
   }
 }
 
@@ -33,6 +40,7 @@ export async function getS3Object(key: string) {
     return previousOverallStatus
   } catch (error) {
     console.error('Error [getS3Object]:', error)
+    return null
   }
 }
 
